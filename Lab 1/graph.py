@@ -1,4 +1,4 @@
-from exceptions import NodeNotInGraphError, NodeAlreadyInGraphError, VerticeAlreadyPresent, VerticeNotInGraph, ReflexiveVerticeNotAllowed
+from exceptions import NodeNotInGraphError, NodeAlreadyInGraphError, EdgeAlreadyPresent, EdgeNotInGraph, ReflexiveEdgeNotAllowed
 
 class Graph():
     def __init__(self, oriented=True):
@@ -32,13 +32,13 @@ class Graph():
         if not self.lookup(node_b):
             raise NodeNotInGraphError(node_b)
         if node_b in self.nodes[node_a]:
-            raise VerticeAlreadyPresent(node_a, node_b)
+            raise EdgeAlreadyPresent(node_a, node_b)
         if node_a == node_b:
-            ReflexiveVerticeNotAllowed(node_a, node_b)
+            ReflexiveEdgeNotAllowed(node_a, node_b)
         
         if not self.oriented:
             if node_a in self.nodes[node_b]:
-                raise VerticeAlreadyPresent(node_b, node_a)
+                raise EdgeAlreadyPresent(node_b, node_a)
             
             self.nodes[node_b].add(node_a)
 
@@ -51,13 +51,13 @@ class Graph():
             raise NodeNotInGraphError(node_b)
 
         if node_b not in self.nodes[node_a]:
-            raise VerticeNotInGraph(node_a, node_b)
+            raise EdgeNotInGraph(node_a, node_b)
         
         self.nodes[node_a].remove(node_b)
 
         if not self.oriented:
             if node_a not in self.nodes[node_b]:
-                raise VerticeNotInGraph(node_b, node_a)
+                raise EdgeNotInGraph(node_b, node_a)
             self.nodes[node_b].remove(node_a)
 
 
@@ -148,7 +148,7 @@ class Graph():
             raise NodeNotInGraphError(node_b)
         
         if node_b not in self.nodes[node_a]:
-            raise VerticeNotInGraph(node_a, node_b)
+            raise EdgeNotInGraph(node_a, node_b)
         
         self.nodes[node_a] = self.nodes[node_a].union(self.nodes[node_b])
         self.nodes[node_a].discard(node_a)
