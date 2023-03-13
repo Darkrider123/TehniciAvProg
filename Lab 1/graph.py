@@ -14,8 +14,11 @@ class Graph():
         if not self.lookup(node):
             raise NodeNotInGraphError(node)
 
-        #TODO
+        for node_b in self.nodes:
+            if node in self.nodes[node_b]:
+                self.nodes[node_b].remove(node)
         
+        del self.nodes[node]
 
 
     def lookup(self, node):

@@ -37,6 +37,8 @@ def main():
     #print(graph.get_neighbours(6))
     #print(graph.adjacency_test(0, 999))
     #graph.delete_edge(0, 6)
+    #graph.delete_node(6)
+    
 
 
 if __name__ == "__main__":
