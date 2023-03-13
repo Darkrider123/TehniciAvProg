@@ -38,7 +38,7 @@ def main():
     #print(graph.adjacency_test(0, 999))
     #graph.delete_edge(0, 6)
     #graph.delete_node(6)
-    
+    #print(graph.contract_edge(6, 319))
 
 
 if __name__ == "__main__":

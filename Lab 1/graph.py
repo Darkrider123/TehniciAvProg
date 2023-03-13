@@ -1,4 +1,4 @@
-from exceptions import NodeNotInGraphError, NodeAlreadyInGraphError, VerticeAlreadyPresent, VerticeNotInGraph
+from exceptions import NodeNotInGraphError, NodeAlreadyInGraphError, VerticeAlreadyPresent, VerticeNotInGraph, ReflexiveVerticeNotAllowed
 
 class Graph():
     def __init__(self, oriented=True):
@@ -33,6 +33,8 @@ class Graph():
             raise NodeNotInGraphError(node_b)
         if node_b in self.nodes[node_a]:
             raise VerticeAlreadyPresent(node_a, node_b)
+        if node_a == node_b:
+            ReflexiveVerticeNotAllowed(node_a, node_b)
         
         if not self.oriented:
             if node_a in self.nodes[node_b]:
@@ -134,3 +136,30 @@ class Graph():
             raise NodeNotInGraphError(node_b)
 
         return node_b in self.nodes[node_a]
+
+    def contract_edge(self, node_a, node_b):
+        '''
+        Returns the resulted node and the neighbours as proof of work
+        '''
+
+        if not self.lookup(node_a):
+            raise NodeNotInGraphError(node_a)
+        if not self.lookup(node_b):
+            raise NodeNotInGraphError(node_b)
+        
+        if node_b not in self.nodes[node_a]:
+            raise VerticeNotInGraph(node_a, node_b)
+        
+        self.nodes[node_a] = self.nodes[node_a].union(self.nodes[node_b])
+        self.nodes[node_a].discard(node_a)
+
+        for node in self.nodes:
+            if node != node_b and node_b in self.nodes[node]:
+                self.nodes[node].remove(node_b)
+
+                if node != node_a:
+                    self.nodes[node].add(node_a)
+        
+        del self.nodes[node_b]
+
+        return node_a, self.get_neighbours(node_a)

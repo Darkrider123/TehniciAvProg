@@ -13,3 +13,7 @@ class VerticeAlreadyPresent(ValueError):
 class VerticeNotInGraph(ValueError):
     def __init__(self, node_a, node_b) -> None:
         super().__init__(f"Vertice {node_a} -> {node_b} not in graph")
+
+class ReflexiveVerticeNotAllowed(ValueError):
+    def __init__(self, node_a, node_b) -> None:
+        super().__init__(f"Node {node_a} same as {node_b}")
